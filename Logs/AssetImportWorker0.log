@@ -158,3 +158,4 @@ Received Import Request.
   path: Assets/AddressableAssetsData/AssetGroups/SodaCans.asset
   artifactKey: Guid(8a1083b5a4f0a48b5be95d05be3f8edd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
 Start importing Assets/AddressableAssetsData/AssetGroups/SodaCans.asset using Guid(8a1083b5a4f0a48b5be95d05be3f8edd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b3c30bd9f259296c248eebe67f78face') in 0.004569 seconds 
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
