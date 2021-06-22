@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic; 		//Allows us to use Lists.
-using Random = UnityEngine.Random; 		//Tells Random to use the Unity Engine random number generator.
+using Random = UnityEngine.Random;      //Tells Random to use the Unity Engine random number generator.
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using System.Collections;
 
 namespace Completed
 	
@@ -30,8 +33,11 @@ namespace Completed
 		public int rows = 8;											//Number of rows in our game board.
 		public Count wallCount = new Count (5, 9);						//Lower and upper limit for our random number of walls per level.
 		public Count foodCount = new Count (1, 5);						//Lower and upper limit for our random number of food items per level.
-		public GameObject exit;											//Prefab to spawn for exit.
-		public GameObject[] floorTiles;									//Array of floor prefabs.
+		public GameObject exit;                                         //Prefab to spawn for exit.
+
+		public AssetReference[] floorTileReferences;
+		private GameObject[] floorTiles;									//Array of floor prefabs.
+
 		public GameObject[] wallTiles;									//Array of wall prefabs.
 		public GameObject[] foodTiles;									//Array of food prefabs.
 		public GameObject[] enemyTiles;									//Array of enemy prefabs.
@@ -89,7 +95,6 @@ namespace Completed
 			}
 		}
 		
-		
 		//RandomPosition returns a random position from our list gridPositions.
 		Vector3 RandomPosition ()
 		{
@@ -129,8 +134,10 @@ namespace Completed
 		
 		
 		//SetupScene initializes our level and calls the previous functions to lay out the game board
-		public void SetupScene (int level)
+		public IEnumerator SetupScene (int level)
 		{
+			yield return LoadFloorTiles();
+
 			//Creates the outer walls and floor.
 			BoardSetup ();
 			
@@ -152,5 +159,18 @@ namespace Completed
 			//Instantiate the exit tile in the upper right hand corner of our game board
 			Instantiate (exit, new Vector3 (columns - 1, rows - 1, 0f), Quaternion.identity);
 		}
+
+		IEnumerator LoadFloorTiles()
+        {
+			int numFloorTiles = floorTileReferences.Length;
+			floorTiles = new GameObject[numFloorTiles];
+
+			for(int i = 0; i < numFloorTiles; i++)
+            {
+				AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(floorTileReferences[i]);
+				yield return handle;
+				floorTiles[i] = handle.Result;
+            }
+        }
 	}
 }
