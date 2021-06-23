@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using Random = UnityEngine.Random;      //Tells Random to use the Unity Engine random number generator.
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Completed
 {
